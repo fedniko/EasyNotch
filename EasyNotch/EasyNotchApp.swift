@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 @main
 struct EasyNotchApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+      var body: some Scene {
+          // нет основного окна — наше "островок" отдельное NSWindow
+          Settings { EmptyView() }
+      }
 }
