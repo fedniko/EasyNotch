@@ -18,13 +18,15 @@ final class DynamicIslandWindow: NSWindow {
     
     init() {
         // Размер островка — подкорректируй под вкус
-        let width: CGFloat = 220
-        let height: CGFloat = 56
+    // Увеличенный островок для перекрытия notch (ширина и высота под MacBook Pro 14/16)
+    let width: CGFloat = 420
+    let height: CGFloat = 80
 
         let screen = NSScreen.main ?? NSScreen.screens.first!
         // Позиционируем по центру верхней грани экрана
-        let x = screen.frame.midX - width / 2
-        let y = screen.frame.maxY - height - 8
+    // Смещаем островок чуть ниже, чтобы он перекрывал notch
+    let x = screen.frame.midX - width / 2
+    let y = screen.frame.maxY - height - 4
 
         let rect = NSRect(x: x, y: y, width: width, height: height)
 
@@ -36,7 +38,7 @@ final class DynamicIslandWindow: NSWindow {
         // window common config
         isOpaque = false
         backgroundColor = .clear
-        level = .statusBar            // поверх большинства окон
+    level = .screenSaver          // поверх всех окон, даже полноэкранных
         hasShadow = false
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
         ignoresMouseEvents = true     // по умолчанию — не мешаем кликам
@@ -72,12 +74,12 @@ final class DynamicIslandWindow: NSWindow {
     
     private func createExpandedWindow() {
         let screen = NSScreen.main ?? NSScreen.screens.first!
-        let width: CGFloat = 280
-        let height: CGFloat = 400
+    let width: CGFloat = 420
+    let height: CGFloat = 400
         
         // Позиционируем по центру экрана
-        let x = screen.frame.midX - width / 2
-        let y = screen.frame.midY - height / 2
+    let x = screen.frame.midX - width / 2
+    let y = screen.frame.midY - height / 2
         
         let rect = NSRect(x: x, y: y, width: width, height: height)
         
@@ -90,10 +92,10 @@ final class DynamicIslandWindow: NSWindow {
         
         guard let expandedWindow = expandedWindow else { return }
         
-        expandedWindow.isOpaque = false
-        expandedWindow.backgroundColor = .clear
-        expandedWindow.level = .statusBar
-        expandedWindow.hasShadow = true
+    expandedWindow.isOpaque = false
+    expandedWindow.backgroundColor = .clear
+    expandedWindow.level = .screenSaver // поверх всех окон
+    expandedWindow.hasShadow = true
         expandedWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
         expandedWindow.ignoresMouseEvents = false
         expandedWindow.titleVisibility = .hidden
